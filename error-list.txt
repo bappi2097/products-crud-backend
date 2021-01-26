@@ -1,0 +1,7 @@
+1.
+PHP Fatal error:  Allowed memory size of 1610612736 bytes exhausted (tried to allocate 4096 bytes) in phar://C:/composer/composer.phar/src/Composer/DependencyResolver/RuleWatchGraph.php on line 52
+Fatal error: Allowed memory size of 1610612736 bytes exhausted (tried to allocate 4096 bytes) in phar://C:/composer/composer.phar/src/Composer/DependencyResolver/RuleWatchGraph.php on line 52
+Check https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors for more info on how to handle out of memory errors.
+
+2.
+BadMethodCallException: Method Illuminate\Auth\SessionGuard::factory does not exist. in file C:\xampp\htdocs\job-project\weDevs\products-crud-backend\vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php on line 103
