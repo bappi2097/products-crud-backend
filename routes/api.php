@@ -23,3 +23,7 @@ Route::middleware('api')->prefix('auth')->namespace('App\Http\Controllers')->gro
         Route::post('user', 'AuthController@me');
     }
 );
+
+Route::namespace('App\Http\Controllers')->group(function () {
+    Route::apiResource("products", "ProductController");
+});
