@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
             "title" => $this->title,
             "description" => $this->description,
             "price" => $this->price,
-            "image" => $this->image,
+            "image" => filter_var($this->image, FILTER_VALIDATE_URL) ? $this->image : asset($this->image),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];
