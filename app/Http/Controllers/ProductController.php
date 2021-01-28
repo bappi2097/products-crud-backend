@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductCollection;
-use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -74,7 +74,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
@@ -86,7 +86,44 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $this->validate($request, [
+            "title" => ['required', 'string'],
+            "description" => ['required', 'string'],
+            "price" => ['required', 'numeric'],
+            "image" => ['nullable', 'file'],
+        ]);
+
+        $data = [
+            "title" => $request->title,
+            "description" => $request->description,
+            "price" => $request->price,
+        ];
+
+        if ($request->hasFile('image')) {
+            if (Storage::disk("local")->exists($product->image)) {
+                Storage::disk("local")->delete($product->image);
+            }
+            $data["image"] = Storage::disk("local")->put("images", $request->image);
+        }
+
+        $product->fill($data);
+
+        if ($product->save()) {
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+                "statusText" => "success",
+                "message" => "Successfully Product Updated",
+                "data" => new ProductResource($product),
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "status" => 400,
+                "statusText" => "error",
+                "message" => "Something went wrong!",
+            ]);
+        }
     }
 
     /**
@@ -97,6 +134,24 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (Storage::disk("local")->exists($product->image)) {
+            Storage::disk("local")->delete($product->image);
+        }
+
+        if ($product->delete()) {
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+                "statusText" => "success",
+                "message" => "Successfully Product Deleted.",
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "status" => 400,
+                "statusText" => "error",
+                "message" => "Something went wrong!",
+            ]);
+        }
     }
 }
