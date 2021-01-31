@@ -20,7 +20,7 @@ Route::middleware('api')->prefix('auth')->namespace('App\Http\Controllers')->gro
         Route::post('register', 'AuthController@register')->name('register');
         Route::post('logout', 'AuthController@logout');
         Route::post('refresh', 'AuthController@refresh');
-        Route::post('user', 'AuthController@me');
+        Route::get('user', 'AuthController@me');
     }
 );
 

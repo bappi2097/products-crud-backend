@@ -16,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -62,7 +62,6 @@ class AuthController extends Controller
         if (User::exists($user->id)) {
             return response()->json([
                 'message' => 'User successfully registered',
-                'user' => $user
             ], 201);
         } else {
             return response()->json([
